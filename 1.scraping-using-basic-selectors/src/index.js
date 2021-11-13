@@ -40,6 +40,20 @@ const main = async () => {
   $ = cheerio.load(html);
   text = $("#red").text();
   console.log(text);
+
+  // 4.Fetch element by className.
+  try {
+    html = await request.get(
+      "https://reactnativetutorial.net/css-selectors/lesson5.html"
+    );
+  } catch (err) {
+    console.log(err);
+  }
+  $ = cheerio.load(html);
+  text = $("h2.red").each((index, element) => {
+    const text = $(element).text().trim();
+    console.log(text);
+  });
 };
 
 main();
