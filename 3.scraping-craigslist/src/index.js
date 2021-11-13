@@ -15,7 +15,8 @@ const main = async () => {
     "ul#search-results li.result-row div.result-info h3.result-heading a.result-title"
   );
   titles.each((index, element) => {
-    console.log(index, " : ", $(element).text());
+    console.log("title", index, " : ", $(element).text());
+    console.log("title", index, "link : ", $(element).attr("href"));
   });
 };
 
