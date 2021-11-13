@@ -14,6 +14,20 @@ const main = async () => {
   let $ = cheerio.load(html);
   let text = $("h1").text();
   console.log(text);
+
+  // 2. Fetch multiple h1 element.
+  try {
+    html = await request.get(
+      "https://reactnativetutorial.net/css-selectors/lesson2.html"
+    );
+  } catch (err) {
+    console.log(err);
+  }
+  $ = cheerio.load(html);
+  text = $("h2").each((index, element) => {
+    const text = $(element).text();
+    console.log(text);
+  });
 };
 
 main();
