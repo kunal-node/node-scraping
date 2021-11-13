@@ -14,10 +14,14 @@ const main = async () => {
   const titles = $(
     "ul#search-results li.result-row div.result-info h3.result-heading a.result-title"
   );
-  titles.each((index, element) => {
-    console.log("title", index, " : ", $(element).text());
-    console.log("title", index, "link : ", $(element).attr("href"));
-  });
+  const jobs = titles
+    .map((index, element) => {
+      const title = $(element).text();
+      const url = $(element).attr("href");
+      return { title, url };
+    })
+    .get(); // map return the cheerio object's, hence we have to use get method on top of map to get normal objects.
+  console.log("jobs : ", jobs);
 };
 
 main();
