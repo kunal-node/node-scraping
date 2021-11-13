@@ -28,6 +28,18 @@ const main = async () => {
     const text = $(element).text();
     console.log(text);
   });
+
+  // 3. Fetch element by id.
+  try {
+    html = await request.get(
+      "https://reactnativetutorial.net/css-selectors/lesson3.html"
+    );
+  } catch (err) {
+    console.log(err);
+  }
+  $ = cheerio.load(html);
+  text = $("#red").text();
+  console.log(text);
 };
 
 main();
