@@ -54,6 +54,20 @@ const main = async () => {
     const text = $(element).text().trim();
     console.log(text);
   });
+
+  // 5.fetch element by attribute name.
+  try {
+    html = await request.get(
+      "https://reactnativetutorial.net/css-selectors/lesson6.html"
+    );
+  } catch (err) {
+    console.log(err);
+  }
+  $ = cheerio.load(html);
+  $("[data-customer]").each((idx, ele) => {
+    const text = $(ele).text().trim();
+    console.log(text);
+  });
 };
 
 main();
