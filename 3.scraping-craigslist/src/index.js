@@ -29,6 +29,9 @@ const scrapJobDescriptions = async (listings, page) => {
   for (let i = 0; i < listings.length; i++) {
     await page.goto(listings[i].url);
     const html = await page.content();
+    const $ = cheerio.load(html);
+    const jobDescription = $("section#postingbody").text().trim();
+    listings[i].description = jobDescription;
     await sleep(1000); // 1 second sleep.
   }
 };
@@ -41,13 +44,14 @@ const sleep = async (milliseconds) => {
 
 const main = async () => {
   //headless false means show the browser.
-  const browser = await puppeteer.launch({ headless: false });
+  const browser = await puppeteer.launch();
   const page = await browser.newPage();
   const listings = await scrapeListings(page);
   const listingsWithJobDescriptions = await scrapJobDescriptions(
     listings,
     page
   );
+  console.log("listings : ", listings);
 };
 
 main();
