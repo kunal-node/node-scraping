@@ -13,7 +13,8 @@ const scrapeCraigList = async () => {
       const titleElement = $(element).children(".result-title");
       const title = titleElement.text();
       const url = titleElement.attr("href");
-      const scrapeResult = { title, url };
+      const datePosted = new Date($(element).children("time").attr("datetime"));
+      const scrapeResult = { title, url, datePosted };
       scrapeResults.push(scrapeResult);
     });
   } catch (err) {
