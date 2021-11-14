@@ -1,9 +1,8 @@
 const request = require("request-promise");
 const cheerio = require("cheerio");
 
-const scrapeResults = [];
-
-const scrapeCraigList = async () => {
+const scrapeJobHeader = async () => {
+  const scrapeResults = [];
   try {
     const html = await request.get(
       "https://sfbay.craigslist.org/d/software-qa-dba-etc/search/sof"
@@ -18,9 +17,33 @@ const scrapeCraigList = async () => {
       const scrapeResult = { title, url, datePosted, hood };
       scrapeResults.push(scrapeResult);
     });
+    return scrapeResult;
   } catch (err) {
     console.log(err);
   }
 };
 
-scrapeCraigList();
+const scrapeDescription = async (jobsWithHeaders) => {
+  return await Promise.all(
+    jobsWithHeaders.map(async (job) => {
+      try {
+        const htmlResult = await request.get(job.url);
+        const $ = await cheerio.load(htmlResult);
+        $(".print-qrcode-container").remove();
+        job.description = $("#postingbody").text();
+        job.address = $("div.mapaddress").text();
+        return job;
+      } catch (error) {
+        console.error(error);
+      }
+    })
+  );
+};
+
+const scrapCraigList = async () => {
+  const jobsWithHeaders = await scrapeJobHeader();
+  const jobsFullData = await scrapeDescription(jobsWithHeaders);
+  console.log(jobsFullData);
+};
+
+scrapCraigList();
