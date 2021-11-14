@@ -14,7 +14,8 @@ const scrapeCraigList = async () => {
       const title = titleElement.text();
       const url = titleElement.attr("href");
       const datePosted = new Date($(element).find("time").attr("datetime"));
-      const scrapeResult = { title, url, datePosted };
+      const hood = $(element).find(".result-hood").text();
+      const scrapeResult = { title, url, datePosted, hood };
       scrapeResults.push(scrapeResult);
     });
   } catch (err) {
