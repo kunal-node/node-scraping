@@ -1,10 +1,7 @@
 const puppeteer = require("puppeteer");
 const cheerio = require("cheerio");
 
-const main = async () => {
-  //headless false means show the browser.
-  const browser = await puppeteer.launch();
-  const page = await browser.newPage();
+const scrapeListings = async (page) => {
   await page.goto(
     "https://pune.craigslist.org/d/software-qa-dba-etc/search/sof"
   );
@@ -12,7 +9,7 @@ const main = async () => {
   const $ = cheerio.load(html);
   // const titles = $("a.result-title");
   const results = $("ul#search-results li.result-row div.result-info");
-  const jobs = results
+  const listings = results
     .map((index, element) => {
       const titleElement = $(element).find("h3.result-heading a.result-title");
       const timeElement = $(element).find("time.result-date");
@@ -24,7 +21,26 @@ const main = async () => {
       return { title, url, datePosted, hood };
     })
     .get(); // map return the cheerio object's, hence we have to use get method on top of map to get normal objects.
-  console.log("jobs : ", jobs);
+  return listings;
+};
+
+const scrapJobDescriptions = async (listings, page) => {
+  //forEach works concurrently, which does not work properly with puppeteer, hence used normal for loop.
+  for (let i = 0; i < listings.length; i++) {
+    await page.goto(listings[i].url);
+    const html = await page.content();
+  }
+};
+
+const main = async () => {
+  //headless false means show the browser.
+  const browser = await puppeteer.launch({ headless: false });
+  const page = await browser.newPage();
+  const listings = await scrapeListings(page);
+  const listingsWithJobDescriptions = await scrapJobDescriptions(
+    listings,
+    page
+  );
 };
 
 main();
