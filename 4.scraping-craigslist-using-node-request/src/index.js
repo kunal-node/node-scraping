@@ -32,6 +32,8 @@ const scrapeDescription = async (jobsWithHeaders) => {
         $(".print-qrcode-container").remove();
         job.description = $("#postingbody").text();
         job.address = $("div.mapaddress").text();
+        const compensationText = $(".attrgroup").children().first().text();
+        job.compensation = compensationText.replace("compensation: ", "");
         return job;
       } catch (error) {
         console.error(error);
