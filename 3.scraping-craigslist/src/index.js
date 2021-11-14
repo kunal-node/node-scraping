@@ -1,8 +1,9 @@
 const puppeteer = require("puppeteer");
 const cheerio = require("cheerio");
 const mongoose = require("mongoose");
+const Listing = require("./model/Listing");
 const uri =
-  "mongodb+srv://craiglistUser:craiglistUser@cluster0.088ex.mongodb.net/Cluster0?retryWrites=true&w=majority";
+  "mongodb+srv://craiglistUser:craiglistUser@cluster0.088ex.mongodb.net/craigslist_listings?retryWrites=true&w=majority";
 
 const scrapeListings = async (page) => {
   await page.goto(
@@ -37,6 +38,8 @@ const scrapJobDescriptions = async (listings, page) => {
     const compensation = $("p.attrgroup span:nth-child(1) b").text();
     listings[i].description = jobDescription;
     listings[i].compensation = compensation;
+    const listingModel = new Listing(listings[i]);
+    await listingModel.save();
     /* $(".attrgroup span").each((index, element) => {
       if (!$(element).text().includes(":")) {
         return true;
