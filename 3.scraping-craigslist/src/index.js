@@ -1,5 +1,8 @@
 const puppeteer = require("puppeteer");
 const cheerio = require("cheerio");
+const mongoose = require("mongoose");
+const uri =
+  "mongodb+srv://craiglistUser:craiglistUser@cluster0.088ex.mongodb.net/Cluster0?retryWrites=true&w=majority";
 
 const scrapeListings = async (page) => {
   await page.goto(
@@ -51,7 +54,13 @@ const sleep = async (milliseconds) => {
   });
 };
 
+const connectToMongoDb = async () => {
+  await mongoose.connect(uri);
+  console.log("mongo connected...");
+};
+
 const main = async () => {
+  await connectToMongoDb();
   //headless false means show the browser.
   const browser = await puppeteer.launch();
   const page = await browser.newPage();
