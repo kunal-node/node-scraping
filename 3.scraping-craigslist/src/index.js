@@ -31,7 +31,16 @@ const scrapJobDescriptions = async (listings, page) => {
     const html = await page.content();
     const $ = cheerio.load(html);
     const jobDescription = $("section#postingbody").text().trim();
+    const compensation = $("p.attrgroup span:nth-child(1) b").text();
     listings[i].description = jobDescription;
+    listings[i].compensation = compensation;
+    /* $(".attrgroup span").each((index, element) => {
+      if (!$(element).text().includes(":")) {
+        return true;
+      }
+      const pair = $(element).text().split(":");
+      listings[i][pair[0]] = pair[1];
+    }); */
     await sleep(1000); // 1 second sleep.
   }
 };
