@@ -29,7 +29,14 @@ const scrapJobDescriptions = async (listings, page) => {
   for (let i = 0; i < listings.length; i++) {
     await page.goto(listings[i].url);
     const html = await page.content();
+    await sleep(1000); // 1 second sleep.
   }
+};
+
+const sleep = async (milliseconds) => {
+  return new Promise((resolve) => {
+    setTimeout(resolve, milliseconds);
+  });
 };
 
 const main = async () => {
