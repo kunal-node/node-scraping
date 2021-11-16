@@ -7,14 +7,12 @@ const getHtml = async (url) => {
 };
 
 const saveHtmlToFile = (html) => {
-  fs.writeFileSync("./test.html", html);
+  fs.writeFileSync("./musicians.html", html);
 };
 
-const main = async () => {
-  const html = await getHtml(
-    "https://sfbay.craigslist.org/d/musicians/search/muc"
-  );
+const main = async (url) => {
+  const html = await getHtml(url);
   saveHtmlToFile(html);
 };
 
-main();
+main("https://sfbay.craigslist.org/d/musicians/search/muc");
