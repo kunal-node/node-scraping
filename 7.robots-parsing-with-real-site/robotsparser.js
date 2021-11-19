@@ -12,6 +12,7 @@ const getRobotsTxt = async (robotsUrl) => {
   console.log(
     robots.isAllowed("https://textfiles.meulie.net/history/", "rogerbot")
   );
+  console.log(robots.getCrawlDelay());
 };
 
 getRobotsTxt(robotsUrl);
