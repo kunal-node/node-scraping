@@ -1,0 +1,17 @@
+{
+  "name": "7.robots-parsing-with-real-site",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "start": "node robotsparser.js"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "request": "^2.88.2",
+    "request-promise": "^4.2.6",
+    "robots-parser": "^2.3.0"
+  }
+}
